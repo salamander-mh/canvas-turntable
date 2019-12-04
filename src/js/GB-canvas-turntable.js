@@ -2,7 +2,7 @@
  * GB-canvas-turntable.js
  * @class gbTurntable
  * @see https://github.com/givebest/GB-canvas-turntable
- * @author givenlovs@msn.com
+ * @author Salamander
  * @(c) 2016
  **/
 
@@ -118,6 +118,8 @@
       showMsg('抱歉！浏览器不支持。');
       return;
     }
+    // 奖项列表
+    var prizeList = opts.prizes
     // 获取绘图上下文
     ctx = canvas.getContext('2d');
 
@@ -135,12 +137,17 @@
       // 绘制圆弧
       ctx.arc(0, 0, 150, 0, 2 * Math.PI / num, false);
 
-      // 颜色间隔
-      if (i % 2 == 0) {
-        ctx.fillStyle = '#ffb820';
+      if (!prizeList[i].bgColor) {
+        // 颜色间隔
+        if (i % 2 == 0) {
+          ctx.fillStyle = '#ffb820';
+        } else {
+          ctx.fillStyle = '#ffcb3f';
+        }
       } else {
-        ctx.fillStyle = '#ffcb3f';
+        ctx.fillStyle = prizeList[i].bgColor
       }
+      
 
       // 填充扇形
       ctx.fill();
@@ -152,8 +159,6 @@
       // 恢复前一个状态
       ctx.restore();
 
-      // 奖项列表
-      var prizeList = opts.prizes;
       html.push('<li class="gb-turntable-item"> <span style="');
       html.push(transform + ': rotate(' + i * turnNum + 'turn)">');
       !!prizeList[i].img ? html.push('<img src="' + prizeList[i].img + '" />') : html.push(prizeList[i].text)
